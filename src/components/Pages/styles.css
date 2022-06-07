@@ -1,0 +1,472 @@
+@font-face {
+  font-family: Poppins-Bold;
+  src: url("../../fonts/Poppins-Bold.ttf");
+}
+
+@font-face {
+  font-family: Poppins-Light;
+  src: url("../../fonts/Poppins-Light.ttf");
+}
+
+@font-face {
+  font-family: Poppins-Medium;
+  src: url("../../fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: Poppins-Regular;
+  src: url("../../fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+  font-family: Poppins-SemiBold;
+  src: url("../../fonts/Poppins-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: Poppins-Thin;
+  src: url("../../fonts/Poppins-Thin.ttf");
+}
+
+.main_header {
+  font-size: 30px;
+  font-weight: 500;
+  color: #252733;
+  font-family: Poppins-Medium;
+}
+
+.underline {
+  width: 75px;
+  height: 5px;
+  margin-left: 5px;
+  background-color: #00629B;
+  border-radius: 10px;
+}
+
+.inputdiv {
+  display: block;
+  padding: 5px 0;
+}
+
+.label {
+  font-size: 16px;
+  /* font-weight: 600; */
+  float: left;
+  width: 170px;
+  padding: 7px;
+  font-family: Poppins-Regular;
+  color: #363b46;
+}
+
+input[type=number],
+input[type=password],
+input[type=text],
+input[type=file],
+input[type=email],
+input[type=tel],
+input[type=datetime-local] {
+  padding: 8px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 8px 4px 20px 0px rgb(128 128 128 / 20%);
+  border-radius: 4px;
+  width: 250px;
+  font-size: 15px;
+  background: #fff;
+  color: #000;
+}
+
+select {
+  padding: 8px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 8px 4px 20px 0px rgb(128 128 128 / 20%);
+  border-radius: 4px;
+  width: 265px;
+  font-size: 15px;
+  background: #fff;
+  color: #000;
+}
+
+input::placeholder {
+  padding-left: 10px;
+}
+
+.config_btn {
+  color: #000000bd;
+  margin-right: 50px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px;
+  width: 150px;
+  height: 27px;
+  text-transform: capitalize;
+  border-radius: 5px;
+  font-family: Poppins-SemiBold;
+  /* background: rgba(0, 160, 255, 0.22) */
+}
+
+.config_card {
+  background-color: rgba(0, 160, 255, 10%);
+  margin-top: 7px;
+  border-radius: 8px;
+  /* padding: 2% 10%; */
+  width: 480px;
+  /* padding: 10px; */
+  padding-left: 32px;
+  padding-top: 10px;
+  height: 360px;
+}
+
+.register {
+  display: flex;
+  background: #00629B;
+  width: 215px;
+  margin-left: 210px;
+  margin-top: 30px;
+  height: 35px;
+  border-radius: 10px;
+}
+
+.remove {
+  display: flex;
+  background: #00629B;
+  width: 215px;
+  margin-left: 210px;
+  margin-top: 30px;
+  height: 35px;
+  border-radius: 10px;
+}
+
+.regmaster_header {
+  font-size: 22px;
+  font-family: Poppins-Regular;
+  padding-bottom: 24px;
+  margin-top: 10px;
+  display: inline-block;
+  color: #00629B;
+  font-weight: 500;
+}
+
+table {
+  border-collapse: collapse;
+  width: max-content;
+  width: 85%;
+  background: #ffffff;
+  margin: 10px 0px;
+}
+
+tr {
+  border-bottom: 1px solid rgba(182, 184, 185, 0.616);
+}
+
+table tr:last-child {
+  border-bottom: none;
+}
+
+table th {
+  border-bottom: 1px solid rgba(235, 78, 16, 0.616);
+}
+
+td,
+th {
+  text-align: center;
+  padding: 0.5rem 1rem;
+}
+
+
+/* Pagination. */
+.pagination {
+  background: #00629b3b;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  /* margin-left: 200px; */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+}
+
+.numbers {
+  padding: 0;
+  margin: 0 2rem;
+  list-style-type: none;
+  display: flex;
+}
+
+.numbers li a {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.numbers li a:hover {
+  opacity: 1;
+}
+
+.numbers li a.active {
+  opacity: 1;
+  background: #fff;
+  color: #333;
+}
+
+
+.card_text {
+  font-weight: 600;
+  font-size: 17px;
+  display: inline-block;
+  padding-bottom: 10px;
+  color: rgb(92, 91, 91);
+  font-family: 'Poppins-Regular';
+}
+
+.cards {
+  box-shadow: rgb(0 0 0 / 65%) 0px 0px 8px;
+  width: 260px;
+  background: white;
+  margin-right: 25px;
+  height: 220px;
+  border-radius: 8px;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.sensor_div {
+  width: 375px;
+  box-shadow: rgb(0 0 0 / 25%) 0px 0px 8px;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 8px;
+  border: 1px solid rgb(0, 98, 155);
+  height: 78px;
+  margin-bottom: 10px;
+}
+
+.sensor_tagtext {
+  margin-top: auto;
+  font-family: poppins-Regular;
+  margin-bottom: auto;
+  color: rgb(92, 91, 91);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.sensor_tagcount {
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 36px;
+  font-weight: 600;
+  color: rgb(59, 166, 226);
+  margin-right: 10px;
+}
+
+.assetdet_btn {
+  color: #000000bd;
+  margin-right: 50px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px;
+  width: 150px;
+  height: 27px;
+  text-transform: capitalize;
+  border-radius: 5px;
+  font-family: Poppins-SemiBold;
+  /* background: rgba(0, 160, 255, 0.22) */
+}
+
+.input-range__track--background {
+  background: #ffffff !important;
+}
+
+.input-range__slider {
+  width: 13px !important;
+  height: 13px !important;
+  background: #00629B !important;
+  border: 1px solid #00629B !important;
+}
+
+.input-range__track {
+  height: 0.5rem !important;
+}
+
+.input-range__track--active {
+  background: #00629B !important;
+}
+
+.input-range__label--value {
+  color: #00629B !important;
+}
+
+/* logoutmodal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(128, 128, 128, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  width: 25%;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 4px lightgray;
+  padding: 20px;
+  overflow: auto;
+}
+
+.btn-center {
+  cursor: pointer;
+  position: relative;
+  left: 50%;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  color: #ffffff;
+  background: #00629B;
+  transform: translateX(-50%);
+}
+
+/* configbuttons */
+.fancy-button {
+  margin-right: 40px;
+  width: 150px;
+  border-radius: 20px;
+  position: relative;
+  color: #000;
+  border: 1px solid #00629B;
+  font-size: 14px;
+  text-decoration: none;
+  height: 35px;
+  box-sizing: border-box;
+  transition: all 0.35s ease;
+}
+
+.active,
+.fancy-button:hover {
+  color: #FFF;
+  font-weight: 600;
+  border: 2px solid #fff;
+  background-color: #00629B;
+}
+
+.fancy-button:hover {
+  box-shadow: 0 .1em 1em #00629b;
+}
+
+/* asstdetails card */
+
+.ass-val {
+  color: #0080ff;
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.ass-info {
+  text-align: left;
+  font-size: 17px;
+  font-weight: 500;
+  margin-top: 5px;
+  margin-bottom: 4px;
+  margin-left: 35px;
+  width: 110px;
+}
+
+.card {
+  margin-left: 5%;
+  margin-top: -1%;
+  width: 25%;
+  height: 10%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.card:hover {
+  height: 100px;
+}
+
+.card .content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.card .content .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: 1s;
+  z-index: 1;
+  padding: 10px;
+}
+
+.from-left {
+  top: -5px;
+  left: -105%;
+  background: #0080ff;
+}
+
+.card:hover .from-left {
+  left: 0%;
+  background-color: #f1f1f1f7;
+}
+
+#nodata {
+  width: 243px;
+  height: 67px;
+  background: #ff00000d;
+  margin-left: 415px;
+  margin-top: 100px;
+  border-radius: 5px;
+  display: none;
+}
+
+
+/* ----------- */
+
+.pagination {
+  display: flex;
+  list-style-type: none;
+}
+
+.pagination .moving:hover {
+  cursor: pointer;
+  background: rgb(118, 200, 214);
+}
+
+.moving {
+  font-size: 18px;
+  border-radius: 5px;
+  padding-top: 4px;
+  text-align: center;
+  justify-content: center;
+  width: 60px;
+  height: 25px;
+  background: rgb(138 152 171);
+}
+
+.pagination-container {
+  float: right;
+  margin-right: 15%;
+}

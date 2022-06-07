@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import login from '../../styling/login.module.css';
-import { login_api } from '../../urls/apiurls';
+import login_style from './login_style.css';
+import { login_api } from '../urls/api'
+
+
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -31,8 +33,8 @@ export default class Login extends Component {
             data: { username: this.state.username, password: this.state.password },
          })
             .then((response) => {
-               console.log("response==>", response);
-               localStorage.setItem("isLogged", "success")
+               // console.log("response==>", response);
+               sessionStorage.setItem("isLogged", "success")
                this.props.parentCallback("success")
             })
             .catch((error) => {
@@ -42,13 +44,13 @@ export default class Login extends Component {
                } else {
                   this.setState({ error: true, message: error.message });
                }
-               localStorage.setItem("isLogged", "failed")
+               sessionStorage.setItem("isLogged", "failed")
                this.props.parentCallback("failed")
             });
       }
       else {
          this.setState({ error: true, message: 'Login Failed' });
-         console.log('Failed..');
+         // console.log('Failed..');
       }
    }
 
@@ -56,11 +58,8 @@ export default class Login extends Component {
    render() {
       const { error, message } = this.state;
       return (
-         <div className={login.backgroundImg}>
-            {/* <img src="../images/serverwallpaper.jpg" alt=""
-               className={login.backgroundImg}
-            /> */}
-            <div className={login.form_align}>
+         <div className="backgroundImg" >
+            <div className="form_align">
                {error && (
                   <div className="alert alert-danger">
                      <strong>Error!</strong> {message}
@@ -68,11 +67,11 @@ export default class Login extends Component {
                )}
                <form onSubmit={this.login} className="form-group">
                   <div className="mt-1">
-                     <label htmlFor="username" style={{ color: '#FFF',fontSize: '20px' }}>UserName </label>
+                     <label htmlFor="username" style={{ color: '#FFF', fontSize: '20px', marginBottom: '5px' }}>UserName </label>
                      <input type="text"
                         style={{
-                           width: '100%',
-                           height: '3.3vw',
+                           width: '90%',
+                           height: '1vw',
                            fontSize: '20px',
                            borderRadius: '5px',
                            // fontFamily: 'serif',
@@ -81,6 +80,7 @@ export default class Login extends Component {
                            outlineColor: '#fff',
                            border: "1px solid #FFF",
                            overflow: 'hidden',
+                           marginTop: '5px'
                         }}
                         id="username" required name="username" onChange={this.inputHandler} />
                   </div>
@@ -89,8 +89,8 @@ export default class Login extends Component {
                      <label htmlFor="password" style={{ color: '#FFF', fontSize: '20px' }}>Password </label>
                      <input type={this.state.showpwd ? "text" : "password"}
                         style={{
-                           width: '100%',
-                           height: '3.3vw',
+                           width: '90%',
+                           height: '1vw',
                            fontSize: '20px',
                            borderRadius: '5px',
                            // fontFamily: 'serif',
@@ -99,6 +99,8 @@ export default class Login extends Component {
                            outlineColor: '#fff',
                            border: "1px solid #FFF",
                            overflow: 'hidden',
+                           marginTop: '5px',
+                           marginBottom: '10px'
                         }}
                         required
                         id="password" name="password" onChange={this.inputHandler} />
@@ -110,7 +112,7 @@ export default class Login extends Component {
                   </div>
 
                   <div className="mt-3">
-                     <button type="submit" className={login.button}>Login</button>
+                     <button type="submit" className="button">Login</button>
                   </div>
                </form>
             </div>
