@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { alerts_det } from "../urls/api";
+import { alert_asset, alert_humi, alert_temp, alert_freefall } from "../urls/api";
 import axios from "axios";
 import $ from "jquery";
 import { linkClicked } from "../sidebar/Leftsidebar";
+import { getPagination, TableDetails, SessionOut } from "./Common";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -13,31 +14,35 @@ export default class Alerts extends Component {
     this.state = {
       message: "",
       error: false,
-      success: false,
     };
   }
   componentDidMount() {
     linkClicked(4);
-    this.alertType();
+    this.getTableDetails();
+    this.interval = setInterval(this.getTableDetails, 15 * 1000)
   }
-
-  alertType = () => {
+  getTableDetails = () => {
+    this.setState({ message: "", error: false });
     if ($("#alerttype").val() === 'Asset') {
-      $("#temp_table").hide();
-      $("#asset_table").show();
-      $("#humid_table").hide();
-      $("#freefall_table").hide();
-      axios({ method: "GET", url: "/api/alert?value=" + 1 })
+      axios({ method: "GET", url: alert_asset })
         .then((response) => {
-          console.log(response, 'assetlert======');
-          if (response.status === 200 && response.data.length !== 0) {
-            let data = response.data;
-            if (data.length > 11) {
-              $('#divheight').css('height', 'fit-content')
-            }
-            $("#assetalert ").empty();
+          const data = response.data;
+          $(".pagination").hide();
+          $("#rangeDropdown").hide();
+          $("#table_det tbody").empty();
+          $("#table_det thead").empty();
+          console.log("Asset Response====>", data);
+          if (data.length !== 0 && response.status === 200) {
+            $("#table_det thead").append(
+              "<tr>" +
+              "<th>SNO</th>" +
+              "<th>ASSET ID</th>" +
+              "<th>ALERT TYPE</th>" +
+              "<th>LAST SEEN</th>" +
+              "</tr>"
+            );
             for (let i = 0; i < data.length; i++) {
-              $("#assetalert").append(
+              $("#table_det tbody").append(
                 "<tr><td>" +
                 (i + 1) +
                 "</td><td>" +
@@ -47,56 +52,55 @@ export default class Alerts extends Component {
                 "</td><td>" +
                 data[i].lastseen.replace("T", " ").substr(0, 19) +
                 "</td></tr>"
-              );
+              )
+            }
+            if (data.length > 25) {
+              $(".pagination").show();
+              $("#rangeDropdown").show();
+              $('#divheight').css('height', 'fit-content')
+              getPagination(this, "#table_det");
+            } else {
+              $('#divheight').css('height', '100vh')
+            }
+            if (data.length > 10) {
+              $('#divheight').css('height', 'fit-content')
             }
           } else {
-            $("#alerts_table ").empty();
-            this.setState({
-              error: true,
-              message: "No Alert Data Found For Asset.",
-            });
+            $('#divheight').css('height', '100vh')
+            this.setState({ message: "No Asset Alert data found!", error: true });
           }
         })
         .catch((error) => {
-          console.log(error);
-          if (error.response.status === 403) {
+          console.log("ERROR====>", error);
+          if (error.response.status === 404) {
+            this.setState({ message: "No Asset Alert data found!", error: true });
+          } else if (error.response.status === 403) {
             $("#displayModal").css("display", "block");
             $("#content").text("User Session has timed out. Please Login again");
           }
-          else if (error.response.status === 404) {
-            this.setState({
-              error: true,
-              message: "No Alert Data Found.",
-            });
-          }
-          else if (error.response.status === 400) {
-            this.setState({
-              error: true,
-              message: "Request Failed.",
-            });
-          } else {
-            this.setState({
-              error: true,
-              message: "Error occurred. Please try again.",
-            });
-          }
-        });
+        })
     }
-
     else if ($("#alerttype").val() === 'Temperature') {
-      this.setState({ error: false, message: '' });
-      $("#temp_table").show();
-      $("#asset_table").hide();
-      $("#humid_table").hide();
-      $("#freefall_table").hide();
-      axios({ method: "GET", url: "/api/alert?value=" + 8 })
+      axios({ method: "GET", url: alert_temp })
         .then((response) => {
-          console.log(response, 'templert======');
-          if (response.status === 200 && response.data.length !== 0) {
-            let data = response.data;
-            $("#tempalert").empty();
+          const data = response.data;
+          $(".pagination").hide();
+          $("#rangeDropdown").hide();
+          console.log('Temperature=====>', data);
+          if (data.length !== 0 && response.status === 200) {
+            $("#table_det tbody").empty();
+            $("#table_det thead").empty();
+
+            $("#table_det thead").append(
+              "<tr>" +
+              "<th>SNO</th>" +
+              "<th>MAC ID</th>" +
+              "<th>TEMPERATURE</th>" +
+              "<th>LAST SEEN</th>" +
+              "</tr>"
+            );
             for (let i = 0; i < data.length; i++) {
-              $("#tempalert").append(
+              $("#table_det tbody").append(
                 "<tr><td>" +
                 (i + 1) +
                 "</td><td>" +
@@ -106,56 +110,51 @@ export default class Alerts extends Component {
                 "</td><td>" +
                 data[i].lastseen.replace("T", " ").substr(0, 19) +
                 "</td></tr>"
-              );
+              )
+            }
+            if (data.length > 25) {
+              $(".pagination").show();
+              $("#rangeDropdown").show();
+              $('#divheight').css('height', 'fit-content')
+              getPagination(this, "#table_det");
+            } else {
+              $('#divheight').css('height', '100vh')
+            }
+            if (data.length > 10) {
+              $('#divheight').css('height', 'fit-content')
             }
           } else {
-            $("#tempalert").empty();
-            this.setState({
-              error: true,
-              message: "No Alert Data Found For Temperature.",
-            });
+            this.setState({ message: "No Temperature Alert data found!", error: true });
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log('Health Slave gate Error====', error);
           if (error.response.status === 403) {
             $("#displayModal").css("display", "block");
             $("#content").text("User Session has timed out. Please Login again");
           }
-          else if (error.response.status === 404) {
-            this.setState({
-              error: true,
-              message: "No Alert Data Found.",
-            });
-          }
-          else if (error.response.status === 400) {
-            this.setState({
-              error: true,
-              message: "Request Failed.",
-            });
-          } else {
-            this.setState({
-              error: true,
-              message: "Error occurred. Please try again.",
-            });
-          }
-        });
-    }
-
-    else if ($("#alerttype").val() === 'Humidity') {
-      this.setState({ error: false, message: '' });
-      $("#temp_table").hide();
-      $("#asset_table").hide();
-      $("#humid_table").show();
-      $("#freefall_table").hide();
-      axios({ method: "GET", url: "/api/alert?value=" + 9 })
+        })
+    } else if ($("#alerttype").val() === 'Humidity') {
+      axios({ method: "GET", url: alert_humi })
         .then((response) => {
-          console.log(response, 'humidlert======');
-          if (response.status === 200 && response.data.length !== 0) {
-            let data = response.data;
-            $("#humidalert").empty();
+          const data = response.data;
+          $(".pagination").hide();
+          $("#rangeDropdown").hide();
+          console.log('=====>', response);
+          if (data.length !== 0 && response.status === 200) {
+            $("#table_det tbody").empty();
+            $("#table_det thead").empty();
+
+            $("#table_det thead").append(
+              "<tr>" +
+              "<th>SNO</th>" +
+              "<th>MAC ID</th>" +
+              "<th>HUMIDITY</th>" +
+              "<th>LAST SEEN</th>" +
+              "</tr>"
+            );
             for (let i = 0; i < data.length; i++) {
-              $("#humidalert").append(
+              $("#table_det tbody").append(
                 "<tr><td>" +
                 (i + 1) +
                 "</td><td>" +
@@ -165,56 +164,50 @@ export default class Alerts extends Component {
                 "</td><td>" +
                 data[i].lastseen.replace("T", " ").substr(0, 19) +
                 "</td></tr>"
-              );
+              )
+            }
+            if (data.length > 25) {
+              $(".pagination").show();
+              $("#rangeDropdown").show();
+              $('#divheight').css('height', 'fit-content')
+              getPagination(this, "#table_det");
+            } else {
+              $('#divheight').css('height', '100vh')
+            }
+            if (data.length > 10) {
+              $('#divheight').css('height', 'fit-content')
             }
           } else {
-            $("#humidalert").empty();
-            this.setState({
-              error: true,
-              message: "No Alert Data Found For Humidity.",
-            });
+            this.setState({ message: "No Humidity Alert data found!", error: true });
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log('Health assests tag gate Error====', error);
           if (error.response.status === 403) {
             $("#displayModal").css("display", "block");
             $("#content").text("User Session has timed out. Please Login again");
           }
-          else if (error.response.status === 404) {
-            this.setState({
-              error: true,
-              message: "No Alert Data Found.",
-            });
-          }
-          else if (error.response.status === 400) {
-            this.setState({
-              error: true,
-              message: "Request Failed.",
-            });
-          } else {
-            this.setState({
-              error: true,
-              message: "Error occurred. Please try again.",
-            });
-          }
-        });
-    }
-
-    else if ($("#alerttype").val() === 'Free Fall') {
-      this.setState({ error: false, message: '' });
-      $("#temp_table").hide();
-      $("#asset_table").hide();
-      $("#humid_table").hide();
-      $("#freefall_table").show();
-      axios({ method: "GET", url: "/api/alert?value=" + 3 })
+        })
+    } else if ($("#alerttype").val() === 'Free Fall') {
+      axios({ method: "GET", url: alert_freefall })
         .then((response) => {
-          console.log(response, 'freefalllert======');
-          if (response.status === 200 && response.data.length !== 0) {
-            let data = response.data;
-            $("#freefallalert").empty();
+          const data = response.data;
+          $(".pagination").hide();
+          $("#rangeDropdown").hide();
+          console.log('FreeFall=====>', data);
+          if (data.length !== 0 && response.status === 200) {
+            $("#table_det tbody").empty();
+            $("#table_det thead").empty();
+            $("#table_det thead").append(
+              "<tr>" +
+              "<th>SNO</th>" +
+              "<th>MAC ID</th>" +
+              "<th>ALERT TYPE</th>" +
+              "<th>LAST SEEN</th>" +
+              "</tr>"
+            );
             for (let i = 0; i < data.length; i++) {
-              $("#freefallalert").append(
+              $("#table_det tbody").append(
                 "<tr><td>" +
                 (i + 1) +
                 "</td><td>" +
@@ -224,42 +217,32 @@ export default class Alerts extends Component {
                 "</td><td>" +
                 data[i].lastseen.replace("T", " ").substr(0, 19) +
                 "</td></tr>"
-              );
+              )
+            }
+            if (data.length > 25) {
+              $(".pagination").show();
+              $("#rangeDropdown").show();
+              $('#divheight').css('height', 'fit-content')
+              getPagination(this, "#table_det");
+            } else {
+              $('#divheight').css('height', '100vh')
+            }
+            if (data.length > 10) {
+              $('#divheight').css('height', 'fit-content')
             }
           } else {
-            $("#freefallalert").empty();
-            this.setState({
-              error: true,
-              message: "No Alert Data Found For Free Fall.",
-            });
+            this.setState({ message: "No Freefall Alert data found!", error: true });
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log('Health Slave gate Error====', error);
           if (error.response.status === 403) {
             $("#displayModal").css("display", "block");
             $("#content").text("User Session has timed out. Please Login again");
           }
-          else if (error.response.status === 404) {
-            this.setState({
-              error: true,
-              message: "No Alert Data Found.",
-            });
-          }
-          else if (error.response.status === 400) {
-            this.setState({
-              error: true,
-              message: "Request Failed.",
-            });
-          } else {
-            this.setState({
-              error: true,
-              message: "Error occurred. Please try again.",
-            });
-          }
-        });
+        })
     }
-  }
+  };
 
 
   componentWillUnmount = () => {
@@ -273,9 +256,9 @@ export default class Alerts extends Component {
   };
 
   render() {
-    const { error, message, success } = this.state;
+    const { error, message } = this.state;
     return (
-      <div
+      <div id='divheight'
         style={{
           float: "right",
           width: "95%",
@@ -286,105 +269,33 @@ export default class Alerts extends Component {
       >
         <div style={{ marginTop: "30px", marginLeft: "60px" }}>
           <span className="main_header">ALERTS</span>
-
           <div className="underline"></div>
 
-          {error && (
-            <div
-              style={{ color: "red", marginBottom: "20px", marginTop: "30px" }}
-            >
-              <strong>{message}</strong>
-            </div>
-          )}
-
-          {success && (
-            <div
-              style={{
-                color: "green",
-                marginBottom: "20px",
-                marginTop: "30px",
-              }}
-            >
-              <strong>{message}</strong>
-            </div>
-          )}
           <div style={{ marginTop: "30px" }}>
             <span className="label">Alert:</span>
             <select style={{ marginBottom: '30px' }}
               name="alerttype"
               id="alerttype"
               required="required"
-              onChange={this.alertType}
+              onChange={this.getTableDetails}
             >
               <option>Asset</option>
               <option>Temperature</option>
               <option>Humidity</option>
               <option>Free Fall</option>
             </select>
-
-            <table id="asset_table">
-              <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>ASSET MAC ID</th>
-                  <th>TYPE</th>
-                  <th>LAST SEEN</th>
-                </tr>
-              </thead>
-              <tbody id='assetalert'></tbody>
-            </table>
-
-            <table id="temp_table">
-              <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>MAC ID</th>
-                  <th>TEMPERATURE</th>
-                  <th>LAST SEEN</th>
-                </tr>
-              </thead>
-              <tbody id='tempalert'></tbody>
-            </table>
-
-            <table id="humid_table">
-              <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>MAC ID</th>
-                  <th>HUMIDITY</th>
-                  <th>LAST SEEN</th>
-                </tr>
-              </thead>
-              <tbody id='humidalert'></tbody>
-            </table>
-
-            <table id="freefall_table">
-              <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>MAC ID</th>
-                  <th>Alert Type</th>
-                  <th>LAST SEEN</th>
-                </tr>
-              </thead>
-              <tbody id='freefallalert'></tbody>
-            </table>
-
-
+            {error && (
+              <div
+                style={{ color: "red" }}>
+                <strong>{message}</strong>
+              </div>
+            )}
           </div>
+          <TableDetails />
         </div>
-        <div id="displayModal" className="modal">
-          <div className="modal-content">
-            <p id="content" style={{ textAlign: "center" }}></p>
-            <button style={{ textAlign: "center" }}
-              id="ok"
-              className="btn-center btn success-btn"
-              onClick={this.sessionTimeout}
-            >
-              OK
-            </button>
-          </div>
-        </div>
+
+        {/* SessionOut Component used here!  */}
+        <SessionOut />
       </div>
     );
   }

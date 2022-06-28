@@ -4,7 +4,9 @@ import $ from "jquery";
 import RackTempAnimation from './RackTempAnimation';
 import ApexCharts from 'react-apexcharts';
 import "./radiobutton.css";
+import "./styles.css";
 import { linkClicked } from '../sidebar/Leftsidebar';
+import { SessionOut } from "./Common";
 
 const option = {
     chart: {
@@ -88,20 +90,25 @@ export default class RealTimeTracking1 extends Component {
                         this.floorData = response.data;
                         this.plotFloorMap();
                     } else {
-                        this.setState({ error: true, message: "Please upload a floormap." })
+                        this.setState({ error: true, message: "Please upload a floormap." },
+                            () => setTimeout(() => this.setState({ message: '' }), 5000));
+
                     }
                 } else {
-                    this.setState({ error: true, message: "Unable to get Floor Map." })
+                    this.setState({ error: true, message: "Unable to get Floor Map." },
+                        () => setTimeout(() => this.setState({ message: '' }), 5000))
                 }
             })
             .catch((error) => {
                 if (error.response.status === 403) {
                     $("#displayModal").css("display", "block");
-                    $("#content").text("User Session has timed out. Please Login again");
+                    // $("#content").text("User Session has timed out. Please Login again");
                 } else if (error.response.status === 400) {
-                    this.setState({ error: true, message: 'Bad Request!' })
+                    this.setState({ error: true, message: 'Bad Request!' },
+                        () => setTimeout(() => this.setState({ message: '' }), 5000))
                 } else if (error.response.status === 404) {
-                    this.setState({ error: true, message: 'No data Found!' })
+                    this.setState({ error: true, message: 'No data Found!' },
+                        () => setTimeout(() => this.setState({ message: '' }), 5000))
                 }
             });
     }
@@ -176,7 +183,7 @@ export default class RealTimeTracking1 extends Component {
                 console.log("error===>", error);
                 if (error.response.status === 403) {
                     $("#displayModal").css("display", "block");
-                    $("#content").text("User Session has timed out. Please Login again");
+                    // $("#content").text("User Session has timed out. Please Login again");
                 } else if (error.response.status === 400) {
                     this.setState({ error: true, message: 'Bad Request!' })
                 } else if (error.response.status === 404) {
@@ -254,7 +261,7 @@ export default class RealTimeTracking1 extends Component {
                 console.log("------>", error);
                 if (error.response.status === 403) {
                     $("#displayModal").css("display", "block");
-                    $("#content").text("User Session has timed out. Please Login again");
+                    // $("#content").text("User Session has timed out. Please Login again");
                 }
             })
     }
@@ -262,29 +269,7 @@ export default class RealTimeTracking1 extends Component {
     assetServerDetails = (assetId) => {
         this.setState({ assetID: assetId });
         this.setState({ series: [] })
-        // this.setState({ error:false, message:''});
         console.log("assetServerDetails()----->", assetId);
-        // let value = [], humidity = [];
-        // for (let i = 10; i < 60; i++) {
-        //     let tem = Math.floor(Math.random() * (45 - (23))) + (23);
-        //     let humi = Math.floor(Math.random() * (60 - (17))) + (17);
-        //     let chartDet = [], humiData = [];
-        //     let time = "2022-05-17 10:" + i + ":00";
-        //     var date = new Date(time);
-        //     var milliseconds = date.getTime();
-        //     chartDet.push(milliseconds);
-        //     chartDet.push(tem)
-        //     value.push(chartDet);
-
-        //     humiData.push(milliseconds);
-        //     humiData.push(humi)
-        //     humidity.push(humiData);
-        // }
-        // this.setState({
-        //     series: [{ name: 'Temperature', data: value },
-        //     { name: 'Humidity', data: humidity }]
-        // })
-
         axios({ method: 'GET', url: "/api/track?id=" + assetId })
             .then((response) => {
                 this.setState({ error: false, message: '' })
@@ -320,7 +305,8 @@ export default class RealTimeTracking1 extends Component {
                         });
                     } else {
                         $('#nodata').show();
-                        // this.setState({ error: true, message: 'No data Found!' })
+                        this.setState({ error: true, message: 'No data Found!' },
+                            () => setTimeout(() => this.setState({ message: '' }), 5000))
                     }
                 }
 
@@ -329,13 +315,12 @@ export default class RealTimeTracking1 extends Component {
                 console.log("ERROR---->", error);
                 if (error.response.status === 403) {
                     $("#displayModal").css("display", "block");
-                    $("#content").text("User Session has timed out. Please Login again");
+                    // $("#content").text("User Session has timed out. Please Login again");
                 }
             })
     }
 
     thermalData = (rackId) => {
-        this.setState({ error: false, message: "" });
         $("#rackImg").attr("src", "../images/Thermal.png");
         $("#rackImg").css({ "width": "390px", "height": "548px" });
         let incValue = 0;
@@ -426,7 +411,7 @@ export default class RealTimeTracking1 extends Component {
                 console.log("ERROR===>", error);
                 if (error.response.status === 403) {
                     $("#displayModal").css("display", "block");
-                    $("#content").text("User Session has timed out. Please Login again");
+                    // $("#content").text("User Session has timed out. Please Login again");
                 } else if (error.response.status === 400) {
                     this.setState({ error: true, message: 'Bad Request!' })
                 } else if (error.response.status === 404) {
@@ -437,7 +422,9 @@ export default class RealTimeTracking1 extends Component {
 
     thermalServerDet = (side, assetId) => {
         this.setState({ assetID: assetId });
+        // this.setState({ error:false, message:''});
         this.setState({ series: [] })
+        this.setState({ error: false, message: '' })
         console.log("thermalServerDet()----->", assetId);
         axios({
             method: "POST",
@@ -467,8 +454,8 @@ export default class RealTimeTracking1 extends Component {
                             { name: 'Humidity', data: humidity }]
                         })
                     } else {
-                        $("#nodata").show();
-                        this.setState({ error: true, message: 'No data Found!' })
+                        this.setState({ error: true, message: 'No data Found!' },
+                            () => setTimeout(() => this.setState({ message: '' }), 5000))
                     }
                 }
             })
@@ -476,27 +463,34 @@ export default class RealTimeTracking1 extends Component {
                 console.log("------>", error);
                 if (error.response.status === 403) {
                     $("#displayModal").css("display", "block");
-                    $("#content").text("User Session has timed out. Please Login again");
+                    // $("#content").text("User Session has timed out. Please Login again");
                 }
             })
     }
 
     radioBtnChange = (rackid) => {
+        // $("#graph_det").empty();
+        $('#nodata').hide();
         $("[name='rack']").removeAttr("checked");
-        $("#nodata").hide();
         let checkVal = $("input[name='rack']:checked").val();
         this.setState({ display: checkVal, animateData: [] });
         $("input[name=rack]").val([checkVal]);
         $("#img_container .assets").remove();
         if (checkVal === "asset") {
+            // $("#asset_details").css("display", "flex");
+            // $("#screen_content").css("margin-top", "30px");
             $(".rack-asset-info").css("margin-left", "30%")
             $("#graph_det").css({ "margin-left": "28%", "width": "74%" });
             this.assetData(rackid);
         } else if (checkVal === "thermal") {
+            // $("#asset_details").css("display", "flex");
+            // $("#screen_content").css("margin-top", "0px");
             $(".rack-asset-info").css("margin-left", "47%")
             $("#graph_det").css({ "margin-left": "45%", "width": "57%" });
             this.thermalData(rackid);
         } else {
+            // $("#asset_details").css("display", "flex");
+            // $("#screen_content").css("margin-top", "30px");
             $(".rack-asset-info").css("margin-left", "30%")
             $("#graph_det").css({ "margin-left": "28%", "width": "74%" });
             this.energyData(rackid);
@@ -514,6 +508,7 @@ export default class RealTimeTracking1 extends Component {
     }
 
     energyData = (rackId) => {
+        // this.setState({ error:false, message:''});
         $("#rackImg").attr("src", "../images/mainframe.png");
         $("#rackImg").css({ "width": "200px", "height": "522px" });
         let incValue = 0;
@@ -566,7 +561,7 @@ export default class RealTimeTracking1 extends Component {
                 console.log("assetView ERROR===>", error);
                 if (error.response.status === 403) {
                     $("#displayModal").css("display", "block");
-                    $("#content").text("User Session has timed out. Please Login again");
+                    // $("#content").text("User Session has timed out. Please Login again");
                 } else {
                     $("#track-error").text(
                         "Request Failed with status code (" + error.response.status + ")."
@@ -576,8 +571,10 @@ export default class RealTimeTracking1 extends Component {
     }
 
     energyServerDet = (assetId) => {
+
         this.setState({ assetID: assetId });
         this.setState({ series: [] })
+        // this.setState({ error:false, message:''});
         axios({ method: 'GET', url: "/api/track?id=" + assetId })
             .then((response) => {
                 console.log("Response====>", response);
@@ -601,7 +598,8 @@ export default class RealTimeTracking1 extends Component {
                         });
                     } else {
                         $('#nodata').show();
-                        // this.setState({ error: true, message: 'No data Found!' })
+                        this.setState({ error: true, message: 'No data Found!' },
+                            () => setTimeout(() => this.setState({ message: '' }), 5000))
                     }
                 }
 
@@ -610,7 +608,7 @@ export default class RealTimeTracking1 extends Component {
                 console.log("ERROR---->", error);
                 if (error.response.status === 403) {
                     $("#displayModal").css("display", "block");
-                    $("#content").text("User Session has timed out. Please Login again");
+                    // $("#content").text("User Session has timed out. Please Login again");
                 }
             })
     }
@@ -621,7 +619,7 @@ export default class RealTimeTracking1 extends Component {
     };
 
     render() {
-        const { series,
+        const { error, message, series,
             rackID, assetID, display, animateData
         } = this.state;
         return (
@@ -674,6 +672,11 @@ export default class RealTimeTracking1 extends Component {
                                 <span><i className="far fa-times-circle"></i></span>
                             </div>
                         </div>
+                        {/*} {error && (
+                            <div style={{ marginTop: "10px", color: 'red' }}>
+                                <strong>{message}</strong>
+                            </div>
+                        )} */}
                         <div id="radio_container" style={{ display: "flex" }}
                             onChange={() => this.radioBtnChange(rackID)}>
                             <label className='radiolabels'>
@@ -808,7 +811,7 @@ export default class RealTimeTracking1 extends Component {
                                     height: "33px",
                                     right: "13%",
                                     position: "absolute",
-                                    top: "-14%"
+                                    top: "-5%"
                                 }}
                                 title="Close" onClick={() => this.tableSlideAnimate("hide")}>
                                 <i style={{
@@ -834,18 +837,9 @@ export default class RealTimeTracking1 extends Component {
                         </table>
                     </div>
                 </div>
-                <div id="displayModal" className="modal">
-                    <div className="modal-content">
-                        <p id="content" style={{ textAlign: "center" }}></p>
-                        <button style={{ textAlign: "center" }}
-                            id="ok"
-                            className="btn-center btn success-btn"
-                            onClick={this.sessionTimeout}
-                        >
-                            OK
-                        </button>
-                    </div>
-                </div>
+
+                {/* SessionOut Component used here!  */}
+                <SessionOut />
             </div>
         )
     }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { upload_floormap, rackmonitor_register } from '../urls/api';
 import axios from 'axios';
-import $ from 'jquery'
-import InputRange from 'react-input-range';
+import $ from 'jquery';
+import { SessionOut } from "./Common";
+
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 export default class Rackreg extends Component {
@@ -28,19 +29,21 @@ export default class Rackreg extends Component {
                this.setState({
                   error: true,
                   message: "No floor map uploaded. Please upload a floor map to begin",
-               });
+               },
+               () => setTimeout( () => this.setState({ message: '' }) ,5000));
             }
          })
          .catch((error) => {
             console.log('Error----->', error);
             if (error.response.status === 403) {
                $("#displayModal").css("display", "block");
-               $("#content").text("User Session has timed out. Please Login again");
+               // $("#content").text("User Session has timed out. Please Login again");
             } else {
                this.setState({
                   error: true,
                   message: "Error occurred. Please try again.",
-               });
+               },
+               () => setTimeout( () => this.setState({ message: '' }) ,5000));
             }
          })
 
@@ -62,14 +65,15 @@ export default class Rackreg extends Component {
 
       }
 
-      if (data.macid && data.capacity && data.x1 && data.y1 && data.x2 && data.y2 !== '') {
+      if (data.macid && data.capacity && data.x1 && data.y1 && data.x2 && data.y2 &&data.humidity && data.temp !== '') {
          if (
             data.macid.length !== 17 ||
             data.macid.match("^5a-c2-15-[a-x0-9]{2}-[a-x0-9]{2}-[a-x0-9]{2}") === null
          ) {
             this.setState({
                message: "Invalid Rack ID entered. Please check and enter valid one.",
-            });
+            },
+            () => setTimeout( () => this.setState({ message: '' }) ,5000));
          } else {
             axios({
                method: "POST",
@@ -82,6 +86,8 @@ export default class Rackreg extends Component {
                      $("#fname").val('');
                      $('#rackid').val('');
                      $('#capacity').val('');
+                     $('#temp').val('');
+                     $('#humid').val('');
                      $('#x1').val('');
                      $('#x2').val('');
                      $('#y1').val('');
@@ -89,7 +95,8 @@ export default class Rackreg extends Component {
                      this.setState({
                         success: true,
                         message: "Rack Monitor Registered Successfully.",
-                     });
+                     },
+                     () => setTimeout( () => this.setState({ message: '' }) ,5000));
 
                   }
                })
@@ -97,24 +104,27 @@ export default class Rackreg extends Component {
                   // console.log(error);
                   if (error.response.status === 403) {
                      $("#displayModal").css("display", "block");
-                     $("#content").text("User Session has timed out. Please Login again");
+                     // $("#content").text("User Session has timed out. Please Login again");
                   } else if (error.response.status === 400) {
                      this.setState({
                         success: false,
                         error: true,
                         message: "Bad request.",
-                     });
+                     },
+                     () => setTimeout( () => this.setState({ message: '' }) ,5000));
                   } else {
                      this.setState({
                         success: false,
                         error: true,
                         message: "Error occurred. Please try again.",
-                     });
+                     },
+                     () => setTimeout( () => this.setState({ message: '' }) ,5000));
                   }
                });
          }
       } else {
-         this.setState({ error: true, message: 'Please Fillout All Fields' })
+         this.setState({ error: true, message: 'Please Fillout All Fields' },
+         () => setTimeout( () => this.setState({ message: '' }) ,5000))
       }
    }
    sessionTimeout = () => {
@@ -229,18 +239,8 @@ export default class Rackreg extends Component {
                </div>
             </div>
 
-            <div id="displayModal" className="modal">
-               <div className="modal-content">
-                  <p id="content" style={{ textAlign: "center" }}></p>
-                  <button style={{ textAlign: "center" }}
-                     id="ok"
-                     className="btn-center btn success-btn"
-                     onClick={this.sessionTimeout}
-                  >
-                     OK
-                  </button>
-               </div>
-            </div>
+            {/* SessionOut Component used here!  */}
+            <SessionOut />
          </div>
       )
    }

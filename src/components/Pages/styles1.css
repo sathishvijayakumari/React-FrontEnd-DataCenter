@@ -1,0 +1,28 @@
+
+  .box {
+    width: 52% !important;
+    padding: 10px !important;
+   }
+   
+   .box table {
+    width: 100% !important;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 7px;
+   }
+   
+   .box thead {
+       background-color: white !important;
+       padding: 5px 0px;
+   }
+   .box  tr th {
+    border-bottom: 1px solid #ffeaea;
+    color: #00629b;
+    font-family: Poppins-Regular;
+  }
+
+  .box tr{
+    border-bottom: 1px solid rgb(144 218 255 / 19%);
+  }
+   
+  

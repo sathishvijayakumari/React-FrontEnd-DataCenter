@@ -150,67 +150,42 @@ input::placeholder {
   font-weight: 500;
 }
 
-table {
+.table_det table {
+  margin-top: 30px;
+  width: 95%;
   border-collapse: collapse;
   width: max-content;
-  width: 85%;
   background: #ffffff;
-  margin: 10px 0px;
+  border-radius: 7px;
 }
 
-tr {
-  border-bottom: 1px solid rgba(182, 184, 185, 0.616);
-}
-
-table tr:last-child {
-  border-bottom: none;
-}
-
-table th {
-  border-bottom: 1px solid rgba(235, 78, 16, 0.616);
-}
-
-td,
-th {
+.table_det th,
+td {
+  padding: 5px 0px;
   text-align: center;
-  padding: 0.5rem 1rem;
+  font-family: Poppins-Regular;
 }
 
-
-/* Pagination. */
-.pagination {
-  background: #00629b3b;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  /* margin-left: 200px; */
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  width: fit-content;
+.table_det th {
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.numbers {
-  padding: 0;
-  margin: 0 2rem;
-  list-style-type: none;
-  display: flex;
+.table_det td {
+  font-size: 14px;
+  /* color: #00629B; */
+  color: black;
 }
 
-.numbers li a {
-  color: #fff;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  opacity: 0.7;
+.table_det tr th {
+  border-bottom: 1px solid #ffeaea;
+  color: #00629b;
+  font-family: Poppins-Regular;
 }
 
-.numbers li a:hover {
-  opacity: 1;
-}
-
-.numbers li a.active {
-  opacity: 1;
-  background: #fff;
-  color: #333;
+.table_det tr {
+  border-bottom: 1px solid rgb(144 218 255 / 19%);
 }
 
 
@@ -313,6 +288,7 @@ th {
   height: 100%;
   overflow: auto;
   background-color: rgb(128, 128, 128, 0.5);
+  /*Background color*/
 }
 
 .modal-content {
@@ -320,27 +296,57 @@ th {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: auto;
-  width: 25%;
+  height: 140px;
+  width: 325px;
   background-color: white;
   border: none;
   border-radius: 10px;
   box-shadow: 0px 0px 5px 4px lightgray;
   padding: 20px;
-  overflow: auto;
+  overflow: hidden;
 }
 
+.modalheader {
+  width: 379px;
+  height: 36px;
+  background: #00629B;
+  margin-top: -20px;
+  margin-left: -20px;
+  text-align: center;
+  padding-top: 6px;
+}
+
+.modaltext {
+  /* background: red; */
+  width: 180px;
+  float: right;
+  padding: 5px;
+  margin-right: -19px;
+}
+
+/* SessionOut Button */
 .btn-center {
-  cursor: pointer;
   position: relative;
   left: 50%;
+  transform: translateX(-50%);
+  background-color: #00629B;
+  color: white;
+}
+
+.btn {
+  width: fit-content;
   padding: 5px 10px;
   border: none;
-  border-radius: 3px;
-  color: #ffffff;
-  background: #00629B;
-  transform: translateX(-50%);
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.25);
 }
+
+/* --------------------- */
+
 
 /* configbuttons */
 .fancy-button {
@@ -355,6 +361,8 @@ th {
   height: 35px;
   box-sizing: border-box;
   transition: all 0.35s ease;
+  font-family: Poppins-Regular;
+  cursor: pointer;
 }
 
 .active,
@@ -390,8 +398,9 @@ th {
 
 .card {
   margin-left: 5%;
-  margin-top: -1%;
+  margin-top: -3%;
   width: 25%;
+  /* height: 100px; */
   height: 10%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -442,31 +451,60 @@ th {
   display: none;
 }
 
-
-/* ----------- */
-
-.pagination {
-  display: flex;
-  list-style-type: none;
+/* ststus division */
+#outer_red {
+  margin: auto;
+  position: relative;
+  width: 11px;
+  height: 11px;
+  border: 2px solid red;
+  border-radius: 50%;
 }
 
-.pagination .moving:hover {
-  cursor: pointer;
-  background: rgb(118, 200, 214);
+#inner_red {
+  top: 2px;
+  left: 2px;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: red;
+  border-radius: 50%;
+}
+
+#outer_green {
+  margin: auto;
+  position: relative;
+  width: 11px;
+  height: 11px;
+  border: 2px solid #23c106;
+  border-radius: 50%;
+}
+
+#inner_green {
+  top: 2px;
+  left: 2px;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: #23c106;
+  border-radius: 50%;
+}
+
+
+/* ----pagination------- */
+
+.pagination {
+  margin: 20px 0px 20px;
+  background: #00629b3b;
+  padding: 1rem;
+  float: right;
+  margin-right: 5%;
 }
 
 .moving {
   font-size: 18px;
   border-radius: 5px;
-  padding-top: 4px;
-  text-align: center;
-  justify-content: center;
-  width: 60px;
-  height: 25px;
-  background: rgb(138 152 171);
-}
-
-.pagination-container {
-  float: right;
-  margin-right: 15%;
+  padding: 5px 12px;
+  border: none;
+  cursor: pointer;
 }

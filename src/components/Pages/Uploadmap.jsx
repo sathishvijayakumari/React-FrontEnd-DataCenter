@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import $ from "jquery";
 import { upload_floormap } from "../urls/api";
-
+import { SessionOut } from "./Common";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
@@ -55,7 +55,8 @@ export default class Uploadmap extends Component {
               success: true,
               error: false,
               message: "Floor map is uploaded successfully.",
-            });
+            },
+            () => setTimeout( () => this.setState({ message: '' }) ,5000));
             $("#uploadimage").val("");
             $("#width").val("");
             $("#height").val("");
@@ -67,14 +68,14 @@ export default class Uploadmap extends Component {
           console.log(err);
           if (err.response.status === 403) {
             $("#displayModal").css("display", "block");
-            $("#content").text("User Session has timed out. Please Login again");
           }
         else  if(err.response.status===404){
               this.setState({error:true,message:'No Data Found'})
           }
         });
     } else {
-      this.setState({ error: true, message: "Please Fill Out All The Fields" });
+      this.setState({ error: true, message: "Please Fill Out All The Fields" },
+       () => setTimeout( () => this.setState({ message: '' }) ,5000));
     }
   };
   sessionTimeout = () => {
@@ -165,18 +166,9 @@ export default class Uploadmap extends Component {
             </div>
           </div>
         </div>
-        <div id="displayModal" className="modal">
-        <div className="modal-content">
-            <p id="content" style={{ textAlign: "center" }}></p>
-              <button style={{ textAlign: "center" }}
-                 id="ok"
-                className="btn-center btn success-btn"
-            onClick={this.sessionTimeout}
-           >
-        OK
-      </button>
-    </div>
-  </div>
+      
+        {/* SessionOut Component used here!  */}
+        <SessionOut />
       </div>
     );
   }

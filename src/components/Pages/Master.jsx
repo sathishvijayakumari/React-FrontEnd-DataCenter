@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { upload_floormap } from "../urls/api";
+import { upload_floormap, master_register } from "../urls/api";
 import $ from "jquery";
-import { master_register } from "../urls/api";
+import { SessionOut } from "./Common";
 
 export default class Master extends Component {
   constructor(props) {
@@ -32,14 +32,15 @@ export default class Master extends Component {
             error: true,
             message:
               "No floor map uploaded. Please upload a floor map to begin",
-          });
+          },
+          () => setTimeout( () => this.setState({ message: '' }) ,5000));
         }
       })
       .catch((error) => {
         console.log(error);
         if (error.response.status === 403) {
           $("#displayModal").css("display", "block");
-          $("#content").text("User Session has timed out. Please Login again");
+          // $("#content").text("User Session has timed out. Please Login again");
         }
       });
   }
@@ -66,13 +67,15 @@ export default class Master extends Component {
               success: true,
               error: false,
               message: "Master Gateway is registered successfully.",
-            });
+            },
+            () => setTimeout( () => this.setState({ message: '' }) ,5000));
           } else {
             this.setState({
               success: false,
               error: true,
               message: "Master Gateway  is not registered",
-            });
+            },
+            () => setTimeout( () => this.setState({ message: '' }) ,5000));
           }
         }
       );
@@ -106,20 +109,22 @@ export default class Master extends Component {
               success: true,
               error: false,
               message: "Master Gateway is removed successfully.",
-            });
+            },
+            () => setTimeout( () => this.setState({ message: '' }) ,5000));
           } else {
             this.setState({
               success: false,
               error: true,
               message: "Master Gateway is not removed.",
-            });
+            },
+            () => setTimeout( () => this.setState({ message: '' }) ,5000));
           }
         })
         .catch((error) => {
           console.log(error);
           if (error.response.status === 403) {
             $("#displayModal").css("display", "block");
-            $("#content").text("User Session has timed out. Please Login again");
+            // $("#content").text("User Session has timed out. Please Login again");
           }
         });
     }
@@ -282,18 +287,9 @@ export default class Master extends Component {
             </div>
           </div>
         </div>
-        <div id="displayModal" className="modal">
-        <div className="modal-content">
-            <p id="content" style={{ textAlign: "center" }}></p>
-              <button style={{ textAlign: "center" }}
-                 id="ok"
-                className="btn-center btn success-btn"
-            onClick={this.sessionTimeout}
-           >
-        OK
-      </button>
-    </div>
-  </div>
+        
+        {/* SessionOut Component used here!  */}
+        <SessionOut />
       </div>
     );
   }

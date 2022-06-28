@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import $ from "jquery";
-import Chart from "react-apexcharts";
 import ApexCharts from "react-apexcharts";
+import { SessionOut } from "./Common";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -195,7 +195,7 @@ export default class Tracking extends Component {
       .catch((error) => {
         if (error.response.status === 403) {
           $("#sessionModal").css("display", "block");
-          $("#content").text("User Session has timed out. Please Login again");
+          // $("#content").text("User Session has timed out. Please Login again");
         } else if (error.response.status === 400) {
           this.setState({ error: true, message: "Bad Request!" });
         } else if (error.response.status === 404) {
@@ -300,7 +300,7 @@ export default class Tracking extends Component {
         console.log("error===>", error);
         if (error.response.status === 403) {
           $("#sessionModal").css("display", "block");
-          $("#content").text("User Session has timed out. Please Login again");
+          // $("#content").text("User Session has timed out. Please Login again");
         } else if (error.response.status === 400) {
           this.setState({ error: true, message: "Bad Request!" });
         } else if (error.response.status === 404) {
@@ -394,7 +394,7 @@ export default class Tracking extends Component {
         console.log("assetView ERROR===>", error);
         if (error.response.status === 403) {
           $("#sessionModal").css("display", "block");
-          $("#content").text("User Session has timed out. Please Login again");
+          // $("#content").text("User Session has timed out. Please Login again");
         } else if (error.response.status === 400) {
           this.setState({ error: true, message: "Bad Request!" });
         } else if (error.response.status === 404) {
@@ -542,7 +542,7 @@ export default class Tracking extends Component {
         console.log("Error===>", error);
         if (error.response.status === 403) {
           $("#sessionModal").css("display", "block");
-          $("#content").text("User Session has timed out. Please Login again");
+          // $("#content").text("User Session has timed out. Please Login again");
         } else if (error.response.status === 400) {
           this.setState({ error: true, message: "Bad Request!" });
         } else if (error.response.status === 404) {
@@ -678,7 +678,7 @@ export default class Tracking extends Component {
         console.log("assetView ERROR===>", error);
         if (error.response.status === 403) {
           $("#sessionModal").css("display", "block");
-          $("#content").text("User Session has timed out. Please Login again");
+          // $("#content").text("User Session has timed out. Please Login again");
         } else if (error.response.status === 400) {
           this.setState({ error: true, message: "Bad Request!" });
         } else if (error.response.status === 404) {
@@ -766,7 +766,7 @@ export default class Tracking extends Component {
         console.log("assetView ERROR===>", error);
         if (error.response.status === 403) {
           $("#tracking_displayModal").css("display", "block");
-          $("#content").text("User Session has timed out. Please Login again");
+          // $("#content").text("User Session has timed out. Please Login again");
         } else {
           $("#track-error").text(
             "Request Failed with status code (" + error.response.status + ")."
@@ -855,7 +855,7 @@ export default class Tracking extends Component {
       .catch((error) => {
         if (error.response.status === 403) {
           $("#thermalDisplayModal").css("display", "block");
-          $("#content").text("User Session has timed out. Please Login again");
+          // $("#content").text("User Session has timed out. Please Login again");
         } else if (error.response.status === 404) {
           $("#temp-error").text("No Daily data found.");
           window.scrollTo(0, 0);
@@ -1252,18 +1252,9 @@ export default class Tracking extends Component {
             </div>
           </div>
         </div>
-        <div id="displayModal" className="modal">
-        <div className="modal-content">
-            <p id="content" style={{ textAlign: "center" }}></p>
-              <button style={{ textAlign: "center" }}
-                 id="ok"
-                className="btn-center btn success-btn"
-            onClick={this.sessionTimeout}
-           >
-        OK
-      </button>
-    </div>
-  </div>
+        
+        {/* SessionOut Component used here!  */}
+        <SessionOut />
       </div>
     );
   }

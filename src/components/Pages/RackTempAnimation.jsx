@@ -4,9 +4,6 @@ import axios from "axios";
 import $ from 'jquery'
 
 export default function RackTempAnimation(props) {
-    console.log(props.data,'----------------------')
-    //  this.rackid=props.data;
-    // console.log(this.rackid)
     useEffect(() => {
         main();
         details();
@@ -70,8 +67,8 @@ export default function RackTempAnimation(props) {
                         style={{width:'50px',marginLeft:'23px'}}
                             alt=""
                             className="current-weather__icon"
-                            src='/videos/sun.gif'
-                            // src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/day.svg"
+                            // src='/videos/sun.gif'
+                            src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/day.svg"
                         />
                         <p className="current-weather__temp" id='tempavg'><span style={{fontSize:"15px",color:'#00629B'}}> </span></p>
                     </div>
@@ -82,8 +79,8 @@ export default function RackTempAnimation(props) {
                                 <img
                                     alt=""
                                     className="weather-forecast__icon"
-                                    src='/videos/coldunscreen.gif'
-                                    // src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/rainy-2.svg"
+                                    // src='/videos/coldunscreen.gif'
+                                    src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/rainy-2.svg"
                                 />
                                 <p className="weather-forecast__temp" id='mintemp' style={{color:'#00629B'}}></p>
                             </div>
@@ -93,8 +90,8 @@ export default function RackTempAnimation(props) {
                                 <img
                                     alt=""
                                     className="weather-forecast__icon"
-                                    src='/videos/maxtemp.gif'
-                                    // src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/thunder.svg"
+                                    // src='/videos/maxtemp.gif'
+                                    src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/thunder.svg"
                                 />
                                 <p className="weather-forecast__temp" id='maxtemp' style={{color:'#00629B'}}></p>
                             </div>
@@ -104,8 +101,8 @@ export default function RackTempAnimation(props) {
                                 <img
                                     alt=""
                                     className="weather-forecast__icon"
-                                    src='/videos/hotunscreen.gif'
-                                    // src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/day.svg"
+                                    // src='/videos/hotunscreen.gif'
+                                    src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/day.svg"
                                 />
                                 <p className="weather-forecast__temp" id='avgtemp' style={{color:'#00629B'}}></p>
                             </div>
